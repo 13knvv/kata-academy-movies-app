@@ -17,7 +17,7 @@ function MovieCard({ movie }) {
   const genreTags = genreIds.map((genre) => <Tag key={Math.random()}>{genre}</Tag>);
   const posterUrl = posterPath ? `https://image.tmdb.org/t/p/original/${posterPath}` : '';
   const releaseDateFormated = format(new Date(...releaseDate.split('-').map((num) => +num)), "MMMM d',' yyyy");
-  const overviewShorted = `${overview.split(' ').slice(0, 30).join(' ')} ...`;
+  const overviewShorted = `${overview.split(' ').slice(0, 20).join(' ')} ...`;
 
   return (
     <div className="card">

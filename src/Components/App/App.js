@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       movies: [],
-      error: '',
+      error: null,
       loading: true,
     };
   }
@@ -40,16 +40,25 @@ class App extends React.Component {
     const { movies, error, loading } = this.state;
 
     const movieCards = movies.map((movie) => (
-      <Col span={12} key={movie.id}>
+      <Col xs={24} md={12} key={movie.id}>
         <MovieCard movie={movie} />
       </Col>
     ));
+
     return (
       <div className="app">
         <Online>
           {error && <Alert message="Error" description={error.message} type="error" showIcon />}
           <Spin spinning={loading} tip="Loading" size="large" className="app__spiner" />
-          <Row gutter={[36, 36]}>{movieCards}</Row>
+          <Row
+            justify="center"
+            gutter={[
+              { xs: 8, sm: 20, lg: 32 },
+              { xs: 8, sm: 20, lg: 32 },
+            ]}
+          >
+            {movieCards}
+          </Row>
         </Online>
         <Offline>
           <Alert message="Offline" description="Сheck your internet connection" type="warning" showIcon />
