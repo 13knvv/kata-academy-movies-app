@@ -12,7 +12,12 @@ const api = {
         Authorization: `Bearer ${this.token}`,
       },
     });
+
     const data = await resp.json();
+
+    if (!resp.ok) {
+      throw new Error(`${data.status_message}`);
+    }
     return data;
   },
 };

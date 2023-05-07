@@ -1,4 +1,5 @@
-import { Col, Row } from 'antd';
+import { Offline, Online } from 'react-detect-offline';
+import { Alert, Col, Row, Spin } from 'antd';
 import './App.css';
 import React from 'react';
 import MovieCard from '../MovieCard/MovieCard';
@@ -9,6 +10,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       movies: [],
+      error: '',
+      loading: true,
     };
   }
 
@@ -17,14 +20,24 @@ class App extends React.Component {
   }
 
   searchMovies = async () => {
-    const data = await api.getMovies();
-    this.setState({
-      movies: data.results,
-    });
+    try {
+      const data = await api.getMovies();
+      this.setState({
+        movies: data.results,
+      });
+    } catch (err) {
+      this.setState({
+        error: err,
+      });
+    } finally {
+      this.setState({
+        loading: false,
+      });
+    }
   };
 
   render() {
-    const { movies } = this.state;
+    const { movies, error, loading } = this.state;
 
     const movieCards = movies.map((movie) => (
       <Col span={12} key={movie.id}>
@@ -33,7 +46,14 @@ class App extends React.Component {
     ));
     return (
       <div className="app">
-        <Row gutter={[36, 36]}>{movieCards}</Row>
+        <Online>
+          {error && <Alert message="Error" description={error.message} type="error" showIcon />}
+          <Spin spinning={loading} tip="Loading" size="large" className="app__spiner" />
+          <Row gutter={[36, 36]}>{movieCards}</Row>
+        </Online>
+        <Offline>
+          <Alert message="Offline" description="Сheck your internet connection" type="warning" showIcon />
+        </Offline>
       </div>
     );
   }
