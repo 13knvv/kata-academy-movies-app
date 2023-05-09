@@ -1,15 +1,20 @@
-import { Offline, Online } from 'react-detect-offline';
-import { Alert, Col, Row, Spin } from 'antd';
+import { Offline } from 'react-detect-offline';
+import { Alert, Pagination, Result, Spin } from 'antd';
+import { WifiOutlined } from '@ant-design/icons';
 import './App.css';
 import React from 'react';
-import MovieCard from '../MovieCard/MovieCard';
 import api from '../../api/api';
+import Movies from '../Movies/Movies';
+import SearchInput from '../ SearchInput/ SearchInput';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchValue: 'return',
       movies: [],
+      totalItems: 0,
+      currentPage: 1,
       error: null,
       loading: true,
     };
@@ -19,11 +24,17 @@ class App extends React.Component {
     this.searchMovies();
   }
 
-  searchMovies = async () => {
+  searchMovies = async (keyWord, page = 1) => {
     try {
-      const data = await api.getMovies();
+      this.setState({
+        loading: true,
+      });
+      const data = await api.getMovies(keyWord, page);
       this.setState({
         movies: data.results,
+        totalItems: data.total_results,
+        currentPage: data.page,
+        error: null,
       });
     } catch (err) {
       this.setState({
@@ -36,33 +47,57 @@ class App extends React.Component {
     }
   };
 
-  render() {
-    const { movies, error, loading } = this.state;
+  changeSearchValue = (value) => {
+    this.setState({
+      searchValue: value,
+    });
+  };
 
-    const movieCards = movies.map((movie) => (
-      <Col xs={24} md={12} key={movie.id}>
-        <MovieCard movie={movie} />
-      </Col>
-    ));
+  changePage = (page) => {
+    const { searchValue } = this.state;
+
+    this.searchMovies(searchValue, page);
+  };
+
+  render() {
+    const { movies, error, loading, totalItems, currentPage } = this.state;
 
     return (
       <div className="app">
-        <Online>
-          {error && <Alert message="Error" description={error.message} type="error" showIcon />}
-          <Spin spinning={loading} tip="Loading" size="large" className="app__spiner" />
-          <Row
-            justify="center"
-            gutter={[
-              { xs: 8, sm: 20, lg: 32 },
-              { xs: 8, sm: 20, lg: 32 },
-            ]}
-          >
-            {movieCards}
-          </Row>
-        </Online>
         <Offline>
-          <Alert message="Offline" description="Сheck your internet connection" type="warning" showIcon />
+          <Alert
+            message="Offline"
+            description="Сheck your internet connection"
+            type="info"
+            showIcon
+            icon={<WifiOutlined />}
+          />
         </Offline>
+        <div className="app__search-movies">
+          <SearchInput
+            searchMovies={this.searchMovies}
+            changeSearchValue={this.changeSearchValue}
+            searchValue={this.searchValue}
+          />
+        </div>
+        {error && <Alert message="Error" description={error.message} type="error" showIcon />}
+        <Spin spinning={loading} tip="Loading" size="large" className="app__spiner">
+          {movies.length || loading || error ? (
+            <Movies movies={movies} />
+          ) : (
+            <Result status="warning" title="Not found! Try another search text." />
+          )}
+        </Spin>
+        <Pagination
+          current={currentPage}
+          total={totalItems}
+          pageSize={20}
+          onChange={this.changePage}
+          hideOnSinglePage
+          showSizeChanger={false}
+          responsive
+          className="app__pagination"
+        />
       </div>
     );
   }

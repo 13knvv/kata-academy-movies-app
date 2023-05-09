@@ -7,7 +7,16 @@
 }
 
 .app__spiner.ant-spin {
-  position: fixed;
-  top: 30vh;
+  position: fixed !important;
+  top: 20vh !important;
   left: calc(50vw - (53.3px / 2));
+}
+
+.app__search-movies {
+  margin: 20px 0 10px;
+}
+
+.app__pagination {
+  display: flex;
+  justify-content: center;
 }

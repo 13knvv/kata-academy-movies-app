@@ -1,5 +1,15 @@
 @import-normalize;
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   background: #E5E5E5;
   margin: 0;
