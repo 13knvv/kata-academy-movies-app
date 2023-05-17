@@ -1,23 +1,173 @@
 .card {
-  display: flex;
+  display: grid;
+  grid-template-columns: 183px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'img info'
+    'img about';
+  align-items: start;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   height: 100%;
 }
 
+.card__poster.ant-image-img {
+  width: 183px;
+  height: 281px;
+}
+
+.ant-image {
+  grid-area: img;
+}
+
+.card__info {
+  grid-area: info;
+  padding: 0 18px;
+}
+
 .card__about-movie {
-  width: 281px;
-  padding: 12px 20px;
+  grid-area: about;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 18px;
+  height: 100%;
+}
+
+.card__rate {
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .card__title.ant-typography {
   font-size: 20px;
-  margin: 10px 0;
+  margin: 10px 0 7px;
 }
 
 .card__data {
-  color: #827E7E;
+  color: #827e7e;
 }
 
 .card__genres {
   padding: 10px 0;
+}
+
+@media screen and (max-width: 1100px) {
+  .card {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .card__poster.ant-image-img {
+    width: 120px;
+    height: 180px;
+  }
+}
+@media screen and (max-width: 940px) {
+  .card {
+    grid-template-columns: 60px 1fr;
+    grid-template-areas:
+      'img info'
+      'about about';
+    padding: 10px;
+  }
+
+  .card__poster.ant-image-img {
+    width: 60px;
+    height: 90px;
+  }
+
+  .card__title.ant-typography {
+    margin: 5px 0 7px;
+  }
+
+  .card__info {
+    padding: 0 0 0 13px;
+  }
+
+  .card__about-movie {
+    padding: 0;
+  }
+
+  .card__rate {
+    margin-bottom: 5px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .card {
+    grid-template-columns: 183px 1fr;
+    grid-template-areas:
+      'img info'
+      'img about';
+    padding: 0;
+  }
+
+  .card__poster.ant-image-img {
+    width: 183px;
+    height: 281px;
+  }
+
+  .card__title.ant-typography {
+    margin: 10px 0 7px;
+  }
+
+  .card__info {
+    padding: 0 18px;
+  }
+  
+  .card__about-movie {
+    padding: 0 18px;
+  }
+
+  .card__rate {
+    margin-bottom: 15px;
+  }
+}
+@media screen and (max-width: 575px) {
+  .card {
+    grid-template-columns: 120px 1fr;
+    grid-template-areas:
+      'img info'
+      'img about';
+  }
+
+  .card__poster.ant-image-img {
+    width: 120px;
+    height: 180px;
+  }
+}
+@media screen and (max-width: 520px) {
+  .card {
+    grid-template-columns: 60px 1fr;
+    grid-template-areas:
+      'img info'
+      'about about';
+    padding: 10px;
+  }
+
+  .card__poster.ant-image-img {
+    width: 60px;
+    height: 90px;
+  }
+
+  .card__title.ant-typography {
+    margin: 5px 0 7px;
+  }
+
+  .card__info {
+    padding: 0 0 0 13px;
+  }
+
+  .card__about-movie {
+    padding: 0;
+  }
+
+  .card__rate {
+    margin-bottom: 5px;
+  }
 }

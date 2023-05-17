@@ -17,6 +17,7 @@
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "semi": [1, "always"],
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-unused-expressions": "off"
   }
 }

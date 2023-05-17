@@ -1,0 +1,10 @@
+.vote-average {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  border: 2px solid green;
+  border-radius: 50%;
+  font-size: 12px;
+}
